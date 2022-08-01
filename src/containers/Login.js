@@ -41,8 +41,9 @@ export default class Login {
     e.preventDefault()
     const user = {
       type: "Admin",
-      email: e.target.querySelector(`input[data-testid="employee-email-input"]`).value,
-      password: e.target.querySelector(`input[data-testid="employee-password-input"]`).value,
+      /************ BUG REPORT EMAIL INPUT ERROR **************/
+      email: e.target.querySelector(`input[data-testid="admin-email-input"]`).value, //employee was used instead of admin value
+      password: e.target.querySelector(`input[data-testid="admin-password-input"]`).value,//employee was used instead of admin value
       status: "connected"
     }
     this.localStorage.setItem("user", JSON.stringify(user))
@@ -62,10 +63,12 @@ export default class Login {
   login = (user) => {
     if (this.store) {
       return this.store
-      .login(JSON.stringify({
-        email: user.email,
-        password: user.password,
-      })).then(({jwt}) => {
+      .login(
+        JSON.stringify({
+          email: user.email,
+          password: user.password,
+        })
+      ).then(({jwt}) => {
         localStorage.setItem('jwt', jwt)
       })
     } else {
@@ -78,12 +81,14 @@ export default class Login {
     if (this.store) {
       return this.store
       .users()
-      .create({data:JSON.stringify({
-        type: user.type,
-        name: user.email.split('@')[0],
-        email: user.email,
-        password: user.password,
-      })})
+      .create({
+        data:JSON.stringify({
+          type: user.type,
+          name: user.email.split('@')[0],
+          email: user.email,
+          password: user.password,
+        })
+      })
       .then(() => {
         console.log(`User with ${user.email} is created`)
         return this.login(user)
