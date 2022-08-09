@@ -52,7 +52,8 @@ describe("Given I am connected as an employee", () => {
       Object.defineProperty(window, "localStorage", {
         value: localStorageMock,
       });
-      window.localStorage.setItem("user", JSON.stringify({ type: "Employee" }))
+      window.localStorage.setItem("user", JSON.stringify({ 
+        type: "Employee" }))
       const html = BillsUI({ data: bills })
       document.body.innerHTML = html;
   
@@ -72,6 +73,37 @@ describe("Given I am connected as an employee", () => {
       btn.addEventListener("click", handleClickNewBill)
       userEvent.click(btn)
       expect(handleClickNewBill).toHaveBeenCalled()
+    })
+  })
+  describe("When I click on button 'IconEye' ", () => {
+    test("Then a modal should open ", () => {
+      Object.defineProperty(window, "localStorage", {
+        value: localStorageMock,
+      });
+      window.localStorage.setItem("user", JSON.stringify({ 
+        type: "Employee" }))
+
+      const html = BillsUI({ data: bills })
+      document.body.innerHTML = html
+
+      const billsContainer = new Bills({
+        document,
+        onNavigate,
+        store: mockStore,
+        localStorage: window.localStorage,
+      });
+
+      $.fn.modal = jest.fn()
+      const iconEye = screen.getAllByTestId("icon-eye")[0]
+      const handleShowModalFile = jest.fn((e) => {
+        billsContainer.handleClickIconEye(e.target)
+      });
+
+      iconEye.addEventListener("click", handleShowModalFile)
+      userEvent.click(iconEye)
+
+      expect(handleShowModalFile).toHaveBeenCalled()
+      expect(screen.getAllByText("Justificatif")).toBeTruthy()
     })
   })
 })
