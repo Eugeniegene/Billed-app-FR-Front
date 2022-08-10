@@ -15,7 +15,7 @@ export default class Login {
     const formAdmin = this.document.querySelector(`form[data-testid="form-admin"]`)
     formAdmin.addEventListener("submit", this.handleSubmitAdmin)
   }
-  handleSubmitEmployee = e => {
+  handleSubmitEmployee = (e) => {
     e.preventDefault()
     const user = {
       type: "Employee",
@@ -35,7 +35,6 @@ export default class Login {
         this.document.body.style.backgroundColor="#fff"
       })
   }
-
   handleSubmitAdmin = e => {
     e.preventDefault()
     const user = {
