@@ -35,7 +35,7 @@ export default class Login {
         this.document.body.style.backgroundColor="#fff"
       })
   }
-  handleSubmitAdmin = e => {
+  handleSubmitAdmin = (e) => {
     e.preventDefault()
     const user = {
       type: "Admin",
