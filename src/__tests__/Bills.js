@@ -144,7 +144,7 @@ describe("Given I am a user connected as Employee", () => {
           )
           window.localStorage.setItem('user', JSON.stringify({
             type: 'Employee',
-            email: "b@b"
+            email: "a@a"
           }))
           const root = document.createElement("div")
           root.setAttribute("id", "root")

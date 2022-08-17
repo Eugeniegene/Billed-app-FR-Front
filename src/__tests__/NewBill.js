@@ -36,13 +36,14 @@ describe("Given I am connected as an employee", () => {
       const mailIcon = screen.getByTestId("icon-mail")
       expect(mailIcon).toHaveClass("active-icon")
     });
-    describe("When A file is selected through file input", () => {
-      test("Then selecting image files (.jpg, .jpeg, .png) should work", () => {
+    
+    describe("When a file is selected through file input", () => {
+      test("Then the selection of an image in the right format should work", () => {
         const onNavigate = (pathname) => {
           document.body.innerHTML = ROUTES({ pathname })
-        };
+        }
 
-        const employeeNewBill = new NewBill({
+        const employeeNewBillSubmit = new NewBill({
           document,
           onNavigate,
           store: mockStore,
@@ -50,16 +51,36 @@ describe("Given I am connected as an employee", () => {
         });
 
         jest.spyOn(window, "alert").mockImplementation(() => {})
-        const fileInput = screen.getByTestId("file");
+        const fileInput = screen.getByTestId("file")
 
-        const handleChangeFile = jest.fn(employeeNewBill.handleChangeFile)
+        const handleChangeFile = jest.fn(employeeNewBillSubmit.handleChangeFile)
         fileInput.addEventListener("change", (e) => handleChangeFile(e))
         const file = new File(["test"], "test.png", { type: "image/png" })
         userEvent.upload(fileInput, file);
         expect(handleChangeFile).toHaveBeenCalled()
         expect(window.alert).not.toHaveBeenCalled()
         expect(fileInput.files[0]).toStrictEqual(file)
-      });
+      })
+      test("Then the selection of a file in a wrong format should display an error message", async () => {
+        const onNavigate = (pathname) => {
+          document.body.innerHTML = ROUTES({ pathname })
+        }
+        const employeeNewBillSubmit = new NewBill({
+          document,
+          onNavigate,
+          store: mockStore,
+          localStorage: window.localStorage,
+        })
+        jest.spyOn(window, "alert").mockImplementation(() => {});
+        const fileInput = screen.getByTestId("file");
+
+        const handleChangeFile = jest.fn(employeeNewBillSubmit.handleChangeFile);
+        fileInput.addEventListener("change", (e) => handleChangeFile(e));
+        const file = new File(["test"], "test.gif", { type: "image/gif" });
+        userEvent.upload(fileInput, file);
+        expect(handleChangeFile).toHaveBeenCalled();
+        expect(window.alert).toHaveBeenCalled();
+      })
     })
   })
 })

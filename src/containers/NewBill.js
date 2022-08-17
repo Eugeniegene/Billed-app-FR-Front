@@ -15,12 +15,14 @@ export default class NewBill {
     this.billId = null
     new Logout({ document, localStorage, onNavigate })
   }
+
+  
   handleChangeFile = e => {
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const fileName = file.name
     const fileType = fileName.split(".").at(-1)
-    console.log(fileName, 'toto')
+    console.log(fileName)
     console.log(fileType)
 
     const acceptedFileType = ["png", "jpg", "jpeg"].includes(fileType.toLowerCase())
@@ -50,6 +52,8 @@ export default class NewBill {
         this.fileName = fileName
       }).catch(error => console.error(error))
   }
+
+
   handleSubmit = e => {
     e.preventDefault()
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
