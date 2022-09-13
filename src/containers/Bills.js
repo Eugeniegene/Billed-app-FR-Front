@@ -36,7 +36,6 @@ export default class {
       .then(snapshot => {
         const bills = snapshot
           .map(doc => { 
-            
             try {
               return {
                 ...doc,
@@ -55,23 +54,6 @@ export default class {
             }
             
           })
-          /*if (bills && bills.length){
-            //bills.sort((a, b) => ((a.date < b.date) ? 1 : -1))
-            bills.sort((a, b) => a.date.localeCompare(b.date))
-            bills.reverse()
-          }*/
-
-          if (bills && bills.length){
-            bills.sort((a, b) => ((a.date < b.date) ? 1 : -1))
-          }
-          
-
-          let mydate
-          for(let i=0;i<bills.length;i++){
-             mydate= new Date(bills[i].date)
-            console.log("date : "+mydate)
-          }
-          console.log(bills)
           console.log('length', bills.length)
         return bills
       })
